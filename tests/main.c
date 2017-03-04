@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include <check.h>
-#include <ci.h>
+#include "ci.h"
 
 START_TEST (test_sample)
 {
