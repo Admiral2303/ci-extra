@@ -120,7 +120,8 @@ void str_to_list(Student_List * self, char * str){
     int flag = 0;
     int k = 0;
     int flag1 = 0;
-        for(int i = 0; i < strlen(str); i++){
+    int i = 0;
+        for(i = 0; i < strlen(str); i++){
             if(str[i] == ',' && flag == 0){
                 int start = 0;
                 for(int j = i-k; j < i; j++, start++){
@@ -313,7 +314,8 @@ void delete_Student(Student_List * self){
 
 void Student_List_cleanList(Student_List * self){
     int size = Student_List_count(self);
-    for(int i = 0; i < size; i++){
+    int i = 0;
+    for(i = 0; i < size; i++){
         ListNode * curr = self->head;
         if(curr == NULL) return;
         if(curr->next == NULL){
