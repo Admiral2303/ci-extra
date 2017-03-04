@@ -12,6 +12,7 @@ START_TEST (test_sample)
 }
 END_TEST
 
+
 START_TEST(test_str_to_list){
   Student_List * self = List_new();
   char str[100] = {"dima,levchenko,5\n"};
