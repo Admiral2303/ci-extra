@@ -178,7 +178,7 @@ void Student_free(Student ** self){
 
 
 
-char * create_str(Student_List * self){
+char * str_from_List(Student_List * self){
     char * str;
     str = (char *)malloc(500 * sizeof(char) );
     ListNode * cur = self->head;
@@ -194,7 +194,7 @@ char * create_str(Student_List * self){
 char * str_from_struct(Student * self){
     char * str;
     str = (char *)malloc(500 * sizeof(char) );
-    sprintf(str,"%s,%s,%i;", self->name, self->surname, self->score);
+    sprintf(str,"%s,%s,%i\n", self->name, self->surname, self->score);
     return str;
 }
 
@@ -207,21 +207,8 @@ Student * new_stud(char * name, char * surname, int score){
         return student;
 }
 
-int size_List(char * str){
-    int count = 0;
-    for(int i = 0; i < strlen(str);i++){
-        if(str[i] == ';'){
-            count++;
-        }
-    }
-    return count;
-}
 
-void res(Student * self){
-    strcpy(self->name, "ddddddddddddd");
-    strcpy(self->surname, "dddd");
-    self->score = 5;
-}
+
 
 
 
