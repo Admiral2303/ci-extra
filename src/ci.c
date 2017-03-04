@@ -124,7 +124,8 @@ void str_to_list(Student_List * self, char * str){
         for(i = 0; i < strlen(str); i++){
             if(str[i] == ',' && flag == 0){
                 int start = 0;
-                for(int j = i-k; j < i; j++, start++){
+                int j = i-k;
+                for(; j < i; j++, start++){
                     name[start] = str[j];
                 }
                 name[start] = '\0';
@@ -135,7 +136,8 @@ void str_to_list(Student_List * self, char * str){
             if(str[i] == ',' && flag == 1){
                 int start = 0;
                 surname[0] = '\0';
-                for(int j = i - k; j < i; j++, start++){
+                int j = i - k;
+                for(; j < i; j++, start++){
                     surname[start] = str[j];
                 }
                 surname[start] = '\0';
@@ -147,7 +149,8 @@ void str_to_list(Student_List * self, char * str){
                 int start = 0;
                 char score1 [20];
                 score1[0] = '\0';
-                for(int j = i - k; j < i; j++, start++){
+                int j = i - k;
+                for(; j < i; j++, start++){
                     score1[start] = str[j];
                 }
                 score1[start] = '\0';
@@ -301,8 +304,8 @@ int Student_List_count(Student_List * self){
 void delete_Student(Student_List * self){
      int size = Student_List_count(self);
      ListNode * cur = self->head;
-     
-     for(int i = 0; i < size; i++){
+     int i = 0;
+     for(; i < size; i++){
          Student * curr = cur->data;
          Student_free(&curr);
          cur = cur->next;
