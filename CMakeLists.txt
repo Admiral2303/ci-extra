@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.8.7)
-
 #
 # Common settings
 #
@@ -12,9 +11,10 @@ file(GLOB LIB_SOURCES "src/*.c")
 #
 # first project (static lib)
 #
-project (mymodule)
+project (ci)
 # to build static library target with name libmtmodule.a
 add_library(${CMAKE_PROJECT_NAME} STATIC ${LIB_SOURCES})
+
 
 # to install library headers
 install(
