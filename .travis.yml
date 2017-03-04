@@ -1,0 +1,13 @@
+sudo: required
+language: c
+os:
+  - linux
+before install:
+    - sudo apt-get install -qq update
+    - sudo apt-get install -y check
+
+script:
+  - make
+  - echo program compiled successfully
+after install:
+

@@ -92,42 +92,41 @@ void print1(Student * self){
 
 
 
-void str_to_list(Student_List * self, char str[][1000], int size ){
+void str_to_list(Student_List * self, char * str){
     char surname[20];
     char name[20];
     int score = 0;
     int flag = 0;
     int k = 0;
     int flag1 = 0;
-    for(int str_index = 0; str_index < size;str_index++){
-        for(int i = 0; i < strlen(str[str_index]); i++){
-            if(str[str_index][i] == ',' && flag == 0){
+        for(int i = 0; i < strlen(str); i++){
+            if(str[i] == ',' && flag == 0){
                 int start = 0;
                 for(int j = i-k; j < i; j++, start++){
-                    name[start] = str[str_index][j];
+                    name[start] = str[j];
                 }
                 name[start] = '\0';
                 k=0;
                 flag = 1;
                 i++;
             }
-            if(str[str_index][i] == ',' && flag == 1){
+            if(str[i] == ',' && flag == 1){
                 int start = 0;
                 surname[0] = '\0';
                 for(int j = i - k; j < i; j++, start++){
-                    surname[start] = str[str_index][j];
+                    surname[start] = str[j];
                 }
                 surname[start] = '\0';
                 k=0;
                 flag = 2;
                 i++;
             }
-            if(str[str_index][i] == '\n' && flag == 2){
+            if(str[i] == '\n' && flag == 2){
                 int start = 0;
                 char score1 [20];
                 score1[0] = '\0';
                 for(int j = i - k; j < i; j++, start++){
-                    score1[start] = str[str_index][j];
+                    score1[start] = str[j];
                 }
                 score1[start] = '\0';
                 score = atoi(score1);
@@ -137,20 +136,18 @@ void str_to_list(Student_List * self, char str[][1000], int size ){
                 i++;
 
             }
-            if(!isspace(str[str_index][i]) || !ispunct(str[str_index][i])){
+            if(!isspace(str[i]) || !ispunct(str[i])){
                 k++;
             }
             if(flag1 == 1){
                 Student * student = new_stud(name,surname,score);
                 List_addFirst(self,student);
-                //Student_free(&student);                
+                Student_free(&student);
                 flag1 = 0;
-                str_index++;
-                i = 0;
             }
         }
     }
-}
+
 
 void Student_free(Student ** self){
   assert(NULL != self);
@@ -161,16 +158,15 @@ void Student_free(Student ** self){
 
 
 
-char ** create_str(Student_List * self, char * str[]){
-    int size = Student_List_count(self);
-    for(int i = 0; i < size; i++){
-        ListNode * cur = self->head;
-        while(cur != NULL){
-            char * student_string;
-            student_string = str_from_struct(cur->data);
-            strcat(str[i],student_string);
-            cur = cur->next;
-        }
+char * create_str(Student_List * self){
+    char * str;
+    str = (char *)malloc(500 * sizeof(char) );
+    ListNode * cur = self->head;
+    while(cur != NULL){
+        char * student_string;
+        student_string = str_from_struct(cur->data);
+        strcat(str,student_string);
+        cur = cur->next;
     }
     return str;
 }
