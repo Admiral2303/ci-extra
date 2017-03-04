@@ -28,6 +28,18 @@ struct Student{
 };
 
 
+char * getname_from_list(Student_List * self){
+    return self->head->data->name;
+}
+char * getsurname_from_list(Student_List * self){
+    return self->head->data->surname;
+}
+int getscore_from_list(Student_List * self){
+    return self->head->data->score;
+}
+
+
+
 Student_List* create_newList_from_teacher(Teacher *self, Student_List * data){
     Student_List * new_List = List_new();
     Student_List * cur = self->head;
@@ -140,7 +152,6 @@ void str_to_list(Student_List * self, char * str){
             if(flag1 == 1){
                 Student * student = new_stud(name,surname,score);
                 List_addFirst(self,student);
-                Student_free(&student);
                 flag1 = 0;
             }
         }

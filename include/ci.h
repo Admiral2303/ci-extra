@@ -47,5 +47,9 @@ void Student_List_cleanList(Student_List * self);
 
 void delete_Student(Student_List * self);
 
+char * getname_from_list(Student_List * self);
+char * getsurname_from_list(Student_List * self);
+int getscore_from_list(Student_List * self);
+
 
 #endif

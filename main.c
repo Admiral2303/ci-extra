@@ -9,17 +9,32 @@ START_TEST (test_sample)
 {
     Student * st = Student_new();
     Student_free(&st);
-  
 }
 END_TEST
+
+START_TEST(test_str_to_list){
+  Student_List * self = List_new();
+  char str[100] = {"dddd,ff,5\n"};
+  str_to_list(self,str);
+  char * str1 = getname_from_list(self);
+  ck_assert_str_eq("dddd", str1);
+  char *str2 = getsurname_from_list(self);
+  ck_assert_str_eq("ff", str2);
+  int score = getscore_from_list(self);
+  ck_assert_int_eq(5,score);
+}
+END_TEST
+
 
 Suite *test_suite() {
   Suite *s = suite_create("Module");
   TCase *tc_sample = tcase_create("TestCase");
   tcase_add_test(tc_sample, test_sample);
+  TCase *test_str_tolist = tcase_create("TestCase");
+  tcase_add_test(test_str_tolist, test_str_to_list);
 
   suite_add_tcase(s, tc_sample);
-
+  suite_add_tcase(s, test_str_tolist);
   return s;
 }
 
