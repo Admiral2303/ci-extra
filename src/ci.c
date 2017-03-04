@@ -304,7 +304,7 @@ int Student_List_count(Student_List * self){
 void delete_Student(Student_List * self){
      int size = Student_List_count(self);
      ListNode * cur = self->head;
-     int i = 0;
+     int i = 0; 
      for(; i < size; i++){
          Student * curr = cur->data;
          Student_free(&curr);
