@@ -22,6 +22,8 @@ START_TEST(test_str_to_list){
   ck_assert_str_eq("ff", str2);
   int score = getscore_from_list(self);
   ck_assert_int_eq(5,score);
+  self = NULL;
+  ck_assert_ptr_eq(NULL, self); 
 }
 END_TEST
 
