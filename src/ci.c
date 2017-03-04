@@ -5,7 +5,7 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include <ci.h>
+#include "ci.h"
 
 struct Teacher{
     Student_List * head;
