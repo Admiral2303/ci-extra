@@ -9,5 +9,4 @@ before install:
 script:
   - make
   - echo program compiled successfully
-after install:
 
