@@ -50,6 +50,12 @@ void delete_Student(Student_List * self);
 char * getname_from_list(Student_List * self);
 char * getsurname_from_list(Student_List * self);
 int getscore_from_list(Student_List * self);
+char * getname_from_struct(Student * self);
+char * getsurname_from_struct(Student * self);
+int getscore_from_struct(Student * self);
+
+
+void Student_List_free(Student_List ** self);
 
 
 #endif

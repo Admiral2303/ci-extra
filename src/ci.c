@@ -38,6 +38,17 @@ int getscore_from_list(Student_List * self){
     return self->head->data->score;
 }
 
+char * getname_from_struct(Student * self){
+    return self->name;
+}
+char * getsurname_from_struct(Student * self){
+    return self->surname;
+}
+int getscore_from_struct(Student * self){
+    return self->score;
+}
+
+
 
 
 Student_List* create_newList_from_teacher(Teacher *self, Student_List * data){
@@ -329,5 +340,11 @@ void Student_List_cleanList(Student_List * self){
         ListNode_free(&(curr->next));
         curr->next = NULL;
     }
+    Student_List_free(&self);
+    
 }
 
+void Student_List_free(Student_List ** self){
+    free(*self);
+    *self = NULL;
+}
