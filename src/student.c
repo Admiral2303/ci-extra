@@ -40,19 +40,18 @@ int getscore_from_struct(Student * self){
 }
 
 
+
 int ListNode_compare(Student_List * self, ListNode * self1){
     ListNode * cur =  List_get_head(self);
-    int flag = 0;
     Student * curr1 = List_get(self1);
-    int count = Student_List_count(self);
-    int i = 0;
-    while(count != i){
+    int flag = 0;
+    while(cur != NULL){
         Student * curr = List_get(cur);
         if(strcmp(curr->name, curr1->name) == 0 && strcmp(curr->surname, curr1->surname) == 0
         && curr->score == curr1->score){
             flag = 1;
         }
-        i++;
+        cur = ListNode_next(cur);
     }
     if(flag == 1){
         return 0;

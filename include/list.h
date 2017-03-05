@@ -27,8 +27,10 @@ void * List_get_head(Student_List * self);
 
 Student_List* create_newList_from_teacher(Teacher *self, Student_List * data);
 void attachment_students_to_teacher(Teacher * self, Student_List * head);
-Teacher * Teacher_new(Student_List * head);
+Teacher * Teacher_new(void);
 void delete_Student(Student_List * self);
 void * ListNode_next(ListNode * self);
+void * get_List_from_teacher(Teacher * self);
+void Teacher_free(Teacher ** self);
 
 #endif

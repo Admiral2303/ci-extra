@@ -68,7 +68,7 @@ END_TEST
 START_TEST(delete_list){
   Student_List * self = List_new();
   char str[100] = {"dima,levchenko,5\ndd,tt,5\n"};
-  str_to_list(self,str);
+  str_to_list(self,str); 
   delete_Student(self);
   Student_List_cleanList(self);
   //ck_assert_ptr_eq(NULL, self);
@@ -80,10 +80,12 @@ START_TEST(create_student){
   ck_assert_str_eq("dima", getname_from_struct(self));
   ck_assert_str_eq("levchenko", getsurname_from_struct(self));
   ck_assert_int_eq(5, getscore_from_struct(self));
+
   Student * self1 = new_stud("","",0);
   ck_assert_str_eq("", getname_from_struct(self1));
   ck_assert_str_eq("", getsurname_from_struct(self1));
   ck_assert_int_eq(0, getscore_from_struct(self1));
+
   Student_free(&self);
   Student_free(&self1);
 }
@@ -92,12 +94,16 @@ END_TEST
 
 START_TEST(list_compare){
   Student_List * self = List_new();
+  Student_List * list = List_new();
   ListNode * self1 = ListNode_new(new_stud("dima","levchenko",5));
   ListNode * self2 = ListNode_new(new_stud("qq","levchenko",5)); 
   ListNode * self3 = ListNode_new(new_stud("dima","savchenko",5));  
   ListNode * self4 = ListNode_new(new_stud("aaa","levchenko",7));  
+  ListNode * self5 = ListNode_new(new_stud("","",0));  
   char str[100] = {"dima,levchenko,5\ndd,tt,5\n"};
-  
+
+  str_to_list(list,"");
+  ck_assert_int_eq(1,  ListNode_compare(list,self5));
   str_to_list(self,str);
   ck_assert_int_eq(0,  ListNode_compare(self,self1));
   ck_assert_int_eq(1,  ListNode_compare(self,self2));
@@ -144,6 +150,92 @@ END_TEST
 
 
 
+START_TEST(add_students_to_teacher){
+  Teacher * self = Teacher_new();
+  Teacher * self_empty_list = Teacher_new();
+  Student_List * list = List_new();
+  Student_List * list_empty = List_new();
+  
+
+  char str1[100] = {""};
+  str_to_list(list_empty,str1);
+  attachment_students_to_teacher(self_empty_list,list_empty);
+  Student_List * list2 = get_List_from_teacher(self_empty_list);
+  char * students1 = str_from_List(list2);
+  
+
+
+  char str[100] = {"dima,levchenko,5\nvadim,scherbina,4\n"};  
+  str_to_list(list,str);
+  attachment_students_to_teacher(self,list);
+  Student_List * list1 = get_List_from_teacher(self);
+  char * students = str_from_List(list1);
+
+
+  ck_assert_str_eq(students1, "");
+  ck_assert_str_eq(students, "dima,levchenko,5\nvadim,scherbina,4\n");
+ 
+  delete_Student(list);
+  Student_List_cleanList(list);
+  delete_Student(list1);
+  Student_List_cleanList(list1);
+  Teacher_free(&self);
+  Teacher_free(&self_empty_list);
+  
+
+}
+END_TEST
+
+
+START_TEST(new_list_from_teacher){
+  Teacher * self = Teacher_new();
+  Teacher * self_empty_list = Teacher_new();
+  
+  Student_List * list = List_new();
+  Student_List * list1 = List_new();
+  
+  Student_List * list2 = List_new();
+  Student_List * list3 = List_new();
+
+
+  str_to_list(list,"dima,levchenko,5\nvadim,scherbina,4\n");
+  attachment_students_to_teacher(self,list);
+  str_to_list(list1,"dima,levchenko,5\nsasha,kopyl,5\n");
+  
+  str_to_list(list2,"dima,levchenko,5\nvadim,scherbina,4\n");
+  attachment_students_to_teacher(self_empty_list,list2);
+  str_to_list(list3,"dima,levchenko,5\nvadim,scherbina,4\n");
+
+  Student_List * list_new = create_newList_from_teacher(self, list1);
+  Student_List * list_new1 = create_newList_from_teacher(self_empty_list, list3);
+   
+  char * name = getname_from_struct(List_get(List_elementAt(list_new, 0)));
+  char * surname = getsurname_from_struct(List_get(List_elementAt(list_new, 0)));
+  int score = getscore_from_struct(List_get(List_elementAt(list_new, 0)));
+  
+
+  ck_assert_int_eq(5, score);
+  ck_assert_str_eq("sasha", name);
+  ck_assert_str_eq("kopyl", surname);
+  ck_assert_ptr_eq(NULL,list_new1);
+
+
+  delete_Student(list);
+  Student_List_cleanList(list);
+  delete_Student(list1);
+  Student_List_cleanList(list1);
+  delete_Student(list2);
+  Student_List_cleanList(list2);
+  delete_Student(list3);
+  Student_List_cleanList(list3);
+  
+  Teacher_free(&self);
+ Teacher_free(&self_empty_list);
+
+}
+END_TEST
+
+
 
 
 Suite *test_suite() {
@@ -164,12 +256,17 @@ Suite *test_suite() {
   tcase_add_test(list_to_str,create_str_from_List);
   TCase *str_to_emptylist = tcase_create("TestCase");
   tcase_add_test(str_to_emptylist,strtolist_emptylist);
+  TCase *add_stud_to_teacher = tcase_create("TestCase");
+  tcase_add_test(add_stud_to_teacher,add_students_to_teacher);
+  TCase *new_list_from_teach= tcase_create("TestCase");
+  tcase_add_test(new_list_from_teach,new_list_from_teacher);
 
 
 
 
 
-
+  suite_add_tcase(s, new_list_from_teach);
+  suite_add_tcase(s, add_stud_to_teacher);
   suite_add_tcase(s, str_to_emptylist);
   suite_add_tcase(s, list_to_str);
   suite_add_tcase(s, str_from_struct);

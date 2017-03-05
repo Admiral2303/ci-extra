@@ -45,18 +45,33 @@ Student_List* create_newList_from_teacher(Teacher *self, Student_List * data){
         }
         curr = curr->next;
     }
-    return new_List;
+    if(Student_List_count(new_List) != 0){
+        return new_List;
+    }
+    else{
+        return NULL;
+    }
 }
 
 void attachment_students_to_teacher(Teacher * self, Student_List * head){
     self->head = head;
 }
 
-Teacher * Teacher_new(Student_List * head){
+Teacher * Teacher_new(void){
     struct Teacher * self = (struct Teacher *)malloc(sizeof(struct Teacher));
-    //strcpy(self->name, "\0");
-    self->head = head;
+    self->head = NULL;
     return self;
+}
+
+
+void Teacher_free(Teacher ** self) {
+    assert(NULL != self);
+    free(*self);
+    *self = NULL;
+}
+
+void * get_List_from_teacher(Teacher * self){
+    return self->head;
 }
 
 
