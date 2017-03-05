@@ -21,6 +21,10 @@ struct Teacher{
     Student_List * head;
 };
 
+
+
+
+
 void * List_get(ListNode * self) {
     return self->data;
 }

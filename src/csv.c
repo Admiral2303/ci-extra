@@ -62,7 +62,6 @@ void str_to_list(Student_List * self, char * str){
             }
             if(flag1 == 1){
                 Student * student = new_stud(name,surname,score);
-                //List_addFirst(self,student);
                 List_addLast(self, student);
                 flag1 = 0;
             }

@@ -18,6 +18,8 @@ struct Student{
 
 
 
+
+
 char * str_from_struct(Student * self){
     char * str;
     str = (char *)malloc(500 * sizeof(char) );
@@ -25,8 +27,6 @@ char * str_from_struct(Student * self){
     sprintf(str,"%s,%s,%i\n", self->name, self->surname, self->score);
     return str;
 }
-
-
 
 
 char * getname_from_struct(Student * self){

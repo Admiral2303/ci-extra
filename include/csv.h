@@ -8,7 +8,4 @@ void str_to_list(Student_List * self, char * str);
 char * str_from_List(Student_List * self);
 
 
-
-
-
 #endif

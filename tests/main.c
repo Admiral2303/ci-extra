@@ -8,23 +8,11 @@
 #include "student.h"
 
 
-
-
-START_TEST (test_sample)
-{
-    Student * st = Student_new();
-    Student_free(&st);
-}
-END_TEST
-
-
 START_TEST(test_str_to_list){
   Student_List * self = List_new();
   char str[100] = {"dima,levchenko,4\nvadim,scherbina,5\n"};
   str_to_list(self,str);
-  // char * str1 = getname_from_list(self);
-  // char *str2 = getsurname_from_list(self);
-  // int score = getscore_from_list(self);
+
   char * name = getname_from_struct(List_get(List_elementAt(self, 0)));
   char * surname = getsurname_from_struct(List_get(List_elementAt(self, 0)));
   int score = getscore_from_struct(List_get(List_elementAt(self, 0)));
@@ -65,15 +53,6 @@ END_TEST
 
 
 
-START_TEST(delete_list){
-  Student_List * self = List_new();
-  char str[100] = {"dima,levchenko,5\ndd,tt,5\n"};
-  str_to_list(self,str); 
-  delete_Student(self);
-  Student_List_cleanList(self);
-  //ck_assert_ptr_eq(NULL, self);
-}
-END_TEST
 
 START_TEST(create_student){
   Student * self = new_stud("dima","levchenko",5);
@@ -244,14 +223,10 @@ END_TEST
 
 Suite *test_suite() {
   Suite *s = suite_create("Module");
-  TCase *tc_sample = tcase_create("TestCase");
-  tcase_add_test(tc_sample, test_sample);
   TCase *test_str_tolist = tcase_create("TestCase");
   tcase_add_test(test_str_tolist, test_str_to_list);
-  TCase *clear_list = tcase_create("TestCase");
-  tcase_add_test(clear_list, delete_list);
   TCase *listel_compare = tcase_create("TestCase");
-  tcase_add_test(clear_list, list_compare);
+  tcase_add_test(listel_compare, list_compare);
   TCase *student_create = tcase_create("TestCase");
   tcase_add_test(student_create,create_student);
   TCase *str_from_struct = tcase_create("TestCase");
@@ -276,8 +251,6 @@ Suite *test_suite() {
   suite_add_tcase(s, str_from_struct);
   suite_add_tcase(s, student_create);
   suite_add_tcase(s, listel_compare);
-  suite_add_tcase(s, clear_list);
-  suite_add_tcase(s, tc_sample);
   suite_add_tcase(s, test_str_tolist);
   return s;
 }
@@ -285,7 +258,7 @@ Suite *test_suite() {
 int main() {
   Suite *s = test_suite();
   SRunner *sr = srunner_create(s);
-  srunner_set_fork_status(sr, CK_NOFORK);  // important for debugging!
+  srunner_set_fork_status(sr, CK_NOFORK);  
 
   srunner_run_all(sr, CK_VERBOSE);
 
