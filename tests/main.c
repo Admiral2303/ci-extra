@@ -217,7 +217,8 @@ START_TEST(new_list_from_teacher){
   ck_assert_int_eq(5, score);
   ck_assert_str_eq("sasha", name);
   ck_assert_str_eq("kopyl", surname);
-  ck_assert_ptr_eq(NULL,list_new1);
+  void * ptr = list_new1;
+  ck_assert_ptr_eq(NULL,ptr);
 
 
   delete_Student(list);
