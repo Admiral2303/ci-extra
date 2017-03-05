@@ -82,3 +82,4 @@ void str_to_list(Student_List * self, char * str){
         }
     return str;
 }
+
