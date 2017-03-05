@@ -230,7 +230,7 @@ START_TEST(new_list_from_teacher){
   Student_List_cleanList(list3);
   
   Teacher_free(&self);
- Teacher_free(&self_empty_list);
+  Teacher_free(&self_empty_list);
 
 }
 END_TEST
@@ -289,3 +289,4 @@ int main() {
   srunner_free(sr);
   return num_tests_failed;
 }
+
