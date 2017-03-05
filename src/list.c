@@ -116,14 +116,6 @@ void List_addLast(Student_List * self, void * data) {
 }
 
 
-ListNode * ListNode_removeFirst(Student_List * self) {
-    assert(self->head != NULL);
-    struct ListNode * node = self->head;
-    self->head = node->next;
-    ListNode_free(&node);
-    return self->head;
-}
-
 
 void ListNode_free(ListNode ** self){
     assert(NULL != self);
