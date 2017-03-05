@@ -7,6 +7,9 @@
 
 #include "ci.h"
 
+
+#define throw(MSG) assert(0 && MSG);
+
 struct Teacher{
     Student_List * head;
 };
@@ -28,15 +31,7 @@ struct Student{
 };
 
 
-char * getname_from_list(Student_List * self){
-    return self->head->data->name;
-}
-char * getsurname_from_list(Student_List * self){
-    return self->head->data->surname;
-}
-int getscore_from_list(Student_List * self){
-    return self->head->data->score;
-}
+
 
 char * getname_from_struct(Student * self){
     return self->name;
@@ -46,6 +41,23 @@ char * getsurname_from_struct(Student * self){
 }
 int getscore_from_struct(Student * self){
     return self->score;
+}
+
+void * List_get(ListNode * self) {
+    return self->data;
+}
+
+
+ListNode * List_elementAt(Student_List * self, int position) {
+    assert(position >= 0);
+    if (self->head == NULL) throw("list->head = NULL");
+    ListNode * cur = self->head;
+    int count = 0;
+    while (cur != NULL && count != position) {
+          cur = cur->next;
+          count++;
+    }
+    return cur;
 }
 
 
@@ -89,9 +101,7 @@ void attachment_students_to_teacher(Teacher * self, Student_List * head){
     self->head = head;
 }
 
- Student_List * nuy(Teacher* self){
-    return self->head;
-}
+
 
 
 
@@ -166,7 +176,8 @@ void str_to_list(Student_List * self, char * str){
             }
             if(flag1 == 1){
                 Student * student = new_stud(name,surname,score);
-                List_addFirst(self,student);
+                //List_addFirst(self,student);
+                List_addLast(self, student);
                 flag1 = 0;
             }
         }
@@ -185,6 +196,7 @@ void Student_free(Student ** self){
 char * str_from_List(Student_List * self){
     char * str;
     str = (char *)malloc(500 * sizeof(char) );
+    str[0] = '\0';
     ListNode * cur = self->head;
     while(cur != NULL){
         char * student_string;
@@ -198,6 +210,7 @@ char * str_from_List(Student_List * self){
 char * str_from_struct(Student * self){
     char * str;
     str = (char *)malloc(500 * sizeof(char) );
+    str[0] = '\0';
     sprintf(str,"%s,%s,%i\n", self->name, self->surname, self->score);
     return str;
 }
@@ -246,7 +259,7 @@ struct ListNode * ListNode_new(Student * data) {
 
 struct Student_List * List_new(void) {
   struct Student_List * list = (struct Student_List *)malloc(sizeof(struct Student_List));
-  list->head = NULL;
+  list->head = NULL;  
   return list;
 }
 
@@ -257,17 +270,17 @@ void List_addFirst(struct Student_List * self, Student * data) {
   self->head = node;
 }
 
-void List_addLast(struct Student_List * self, Student * data) {
-  struct ListNode * node = ListNode_new(data);
-  if (self->head == NULL) {
-    self->head = node;
-    return;
-  }
-  struct ListNode * cur = self->head;
-  while (cur->next != NULL) {
-    cur = cur->next;
-  }
-  cur->next = node;
+void List_addLast(Student_List * self, Student * data) {
+    ListNode * node = ListNode_new(data); 
+    if (self->head == NULL) {        
+          self->head = node;          
+          return;
+    }   
+    ListNode * cur = self->head;
+    while (cur->next != NULL) {
+          cur = cur->next;
+    }
+    cur->next = node;
 }
 
 
@@ -340,3 +353,5 @@ void Student_List_free(Student_List ** self){
     free(*self);
     *self = NULL;
 }
+
+

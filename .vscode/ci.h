@@ -36,7 +36,7 @@ int ListNode_compare(Student_List * self, ListNode * self1);
 Student_List* create_newList_from_teacher(Teacher *self, Student_List * data);
 
 
-Student_List * nuy(Teacher* self);
+
 void Student_free(Student ** self);
 
 int Student_List_count(Student_List * self);
@@ -45,9 +45,7 @@ void Student_List_cleanList(Student_List * self);
 
 void delete_Student(Student_List * self);
 
-char * getname_from_list(Student_List * self);
-char * getsurname_from_list(Student_List * self);
-int getscore_from_list(Student_List * self);
+
 char * getname_from_struct(Student * self);
 char * getsurname_from_struct(Student * self);
 int getscore_from_struct(Student * self);
@@ -55,5 +53,8 @@ int getscore_from_struct(Student * self);
 
 void Student_List_free(Student_List ** self);
 
+
+ListNode * List_elementAt(Student_List * self, int position);
+void * List_get(ListNode * self) ;
 
 #endif

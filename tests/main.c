@@ -3,7 +3,12 @@
 #include <stdlib.h>
 
 #include <check.h>
-#include "ci.h"
+#include "list.h"
+#include "csv.h"
+#include "student.h"
+
+
+
 
 START_TEST (test_sample)
 {
@@ -15,17 +20,50 @@ END_TEST
 
 START_TEST(test_str_to_list){
   Student_List * self = List_new();
-  char str[100] = {"dima,levchenko,5\n"};
+  char str[100] = {"dima,levchenko,4\nvadim,scherbina,5\n"};
   str_to_list(self,str);
-  char * str1 = getname_from_list(self);
-  char *str2 = getsurname_from_list(self);
-  int score = getscore_from_list(self);
+  // char * str1 = getname_from_list(self);
+  // char *str2 = getsurname_from_list(self);
+  // int score = getscore_from_list(self);
+  char * name = getname_from_struct(List_get(List_elementAt(self, 0)));
+  char * surname = getsurname_from_struct(List_get(List_elementAt(self, 0)));
+  int score = getscore_from_struct(List_get(List_elementAt(self, 0)));
+  char * name1 = getname_from_struct(List_get(List_elementAt(self, 1)));
+  char * surname1 = getsurname_from_struct(List_get(List_elementAt(self, 1)));
+  int score1 = getscore_from_struct(List_get(List_elementAt(self, 1)));
+
+
+  ck_assert_int_eq(4, score);
+  ck_assert_str_eq("dima", name);
+  ck_assert_str_eq("levchenko", surname);
+
+  ck_assert_int_eq(5, score1);
+  ck_assert_str_eq("vadim", name1);
+  ck_assert_str_eq("scherbina", surname1);
+
   
-  ck_assert_str_eq("dima", str1);  
-  ck_assert_str_eq("levchenko", str2);
-  ck_assert_int_eq(5,score);
 }                         
 END_TEST
+
+
+START_TEST(strtolist_emptylist)
+{
+    char str[] = "";
+    char str2[] = "Ivan, Savchenko";
+    Student_List * list = List_new();
+    str_to_list(list,str);
+    ck_assert_int_eq(Student_List_count(list), 0);
+    delete_Student(list);
+    Student_List_cleanList(list);;
+    Student_List * list1 = List_new();
+    str_to_list(list1,str2);
+    ck_assert_int_eq(Student_List_count(list1), 0);
+    delete_Student(list1);
+    Student_List_cleanList(list1);    
+}
+END_TEST
+
+
 
 START_TEST(delete_list){
   Student_List * self = List_new();
@@ -36,6 +74,7 @@ START_TEST(delete_list){
   //ck_assert_ptr_eq(NULL, self);
 }
 END_TEST
+
 START_TEST(create_student){
   Student * self = new_stud("dima","levchenko",5);
   ck_assert_str_eq("dima", getname_from_struct(self));
@@ -86,23 +125,19 @@ START_TEST(create_str_from_struct){
 END_TEST
 
 START_TEST(create_str_from_List){
-  Student_List * self = List_new();
-  Student_List * self1 = List_new();  
-  //char str[100] = {"dima,levchenko,5\n"};
-  char str2[100] = {",,5\n"}; 
-  char * str3 = str_from_List(self1);  
-  //char * str1 = str_from_List(self);   
-  //str_to_list(self,str);
-  str_to_list(self,str2);
-
- // ck_assert_str_eq(str1, "dima,levchenko,5\n");
-  ck_assert_str_eq(str3, "");
-  
+  Student_List * self = List_new(); 
+  Student_List * self1 = List_new(); 
+  char str[100] = {"dima,levchenko,5\nvadim,scherbina,4\n"};
+  str_to_list(self,str);
+  char * str1 = str_from_List(self);  
+  str_to_list(self,",,5\n,,4\n");
+  char * str2 = str_from_List(self1);
+  ck_assert_str_eq(str1, "dima,levchenko,5\nvadim,scherbina,4\n");
+  ck_assert_str_eq(str2, "");
   delete_Student(self);
   Student_List_cleanList(self);
   delete_Student(self1);
   Student_List_cleanList(self1);
-
 }
 END_TEST
 
@@ -127,10 +162,15 @@ Suite *test_suite() {
   tcase_add_test(str_from_struct,create_str_from_struct);
   TCase *list_to_str = tcase_create("TestCase");
   tcase_add_test(list_to_str,create_str_from_List);
+  TCase *str_to_emptylist = tcase_create("TestCase");
+  tcase_add_test(str_to_emptylist,strtolist_emptylist);
 
 
 
 
+
+
+  suite_add_tcase(s, str_to_emptylist);
   suite_add_tcase(s, list_to_str);
   suite_add_tcase(s, str_from_struct);
   suite_add_tcase(s, student_create);
